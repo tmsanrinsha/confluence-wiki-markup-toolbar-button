@@ -1,8 +1,7 @@
 // ==UserScript==
 // @name        Confluence rich text editor toolbar button: Wiki markup
 // @description Converts the page to wiki markup, and then displays the wiki markup for editing
-// @namespace   http://www.amnet.net.au/~ghannington/confluence/userscripts
-// @copyright   Fundi Software 2012
+// @namespace   https://github.com/tmsanrinsha/confluence-wiki-markup-toolbar-button
 // @license     BSD 2-Clause license; http://opensource.org/licenses/bsd-license.php
 // @include     */pages/editpage.action?*
 // @include     */pages/createpage.action?*
@@ -163,7 +162,9 @@ function wikify(RTEHTML)
     xsltProcessor.importStylesheet(xsl);
     strWikiMarkup = xsltProcessor.transformToFragment(xml,document).textContent;
   }
-  return strWikiMarkup;
+  return strWikiMarkup.replace(/&#([0-9]+);/g, function(){
+        return String.fromCharCode(RegExp.$1);
+  });
 }
 
 // The function that gets called when you click the custom toolbar button
